@@ -17,6 +17,17 @@ fetchUser:
   code: ./src
   handler: index.fetchUser
 
+userTable:
+  component: "@serverless/aws-dynamodb"
+  inputs:
+    attributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+    keySchema:
+      - AttributeName: id
+        KeyType: HASH
+    region: eu-west-1
+
 UserService:
   component: ../
   inputs:
@@ -27,4 +38,10 @@ UserService:
         resource: ${createUser}
       fetch:
         resource: ${fetchUser}
+        config:
+          some: "other metadata"
+      userTable:
+        resource: ${userTable}
+        config:
+          type: "table"
 ```
