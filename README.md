@@ -1,4 +1,4 @@
-# Serverless Cloudmap Component
+# Serverless Cloudmap Component
 
 The purpose of this library is to register your components within Cloudmap. You can define a namespace, service and include 'instances' within the Cloudmap component. If they don't exist, they'll be created.
 
