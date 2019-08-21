@@ -22,7 +22,6 @@ UserService:
   inputs:
     service: 'user-service'
     namespace: 'test'
-    code: ./src
     resources:
       create:
         resource: ${createUser}
