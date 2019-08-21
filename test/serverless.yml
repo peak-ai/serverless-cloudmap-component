@@ -1,0 +1,36 @@
+name: serverless-cloudmap-component
+
+createUser:
+  component: '@serverless/function'
+  code: ./src
+  handler: index.createUser
+
+fetchUser:
+  component: '@serverless/function'
+  code: ./src
+  handler: index.fetchUser
+
+userTable:
+  component: "@serverless/aws-dynamodb"
+  inputs:
+    attributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+    keySchema:
+      - AttributeName: id
+        KeyType: HASH
+    region: eu-west-1
+
+UserService:
+  component: ../
+  inputs:
+    service: 'user-service'
+    namespace: 'test'
+    code: ./src
+    resources:
+      create:
+        resource: ${createUser}
+      fetch:
+        resource: ${fetchUser}
+      userTable:
+        resource: ${userTable}
