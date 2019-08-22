@@ -10,10 +10,16 @@ class CloudmapComponent extends Component {
   async default(inputs = {}) {
     const { namespace, service } = inputs;
 
+    this.state.namespace = namespace;
+    this.state.service = service;
+    await this.save();
+
+    this.context.status('Creating namespace');
     await Cloudmap.createNamespace({
       name: namespace,
     });
 
+    this.context.status('Create service');
     const { id } = await Cloudmap.createService({
       name: service,
       namespace,
@@ -26,23 +32,16 @@ class CloudmapComponent extends Component {
       };
     });
 
+    this.context.status('Registering instances');
     await Promise.all(resources.map(async (instance) => {
-      // const lambda = await this.load('@serverless/aws-lambda', instance.name);
-      // const f = await lambda({
-      //   region,
-      //   code: inputs.code,
-      //   name: instance.name,
-      //   handler: instance.handler,
-      // });
       return Cloudmap.createInstance(instance, id);
     }));
   }
 
   async remove() {
-    // @todo
-    // Can't delete namespace, could be shared...
-    // Delete service
-    // Delete instances
+    this.context.status('Deleting service');
+    const { service } = this.state;
+    await Cloudmap.deleteService(service);
   }
 }
 
