@@ -1,5 +1,7 @@
 # Serverless Cloudmap Component
 
+# MOVED - Please use https://github.com/serverless-components/cloudmap 
+
 The purpose of this library is to register your components within Cloudmap. You can define a namespace, service and include 'instances' within the Cloudmap component. If they don't exist, they'll be created.
 
 You can register any other component as long as the output contains an ARN.
